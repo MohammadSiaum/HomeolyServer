@@ -17,6 +17,9 @@ const auth_route = require('./routes/Auth.route');
 const doctors_routes = require("./routes/doctors");
 const patient_routes = require('./routes/patient');
 const prescription_routes = require('./routes/prescription');
+const helpAndSupport_routes = require('./routes/helpAndSup');
+const billingOverviewRoute = require("./routes/billingOverviewRoute");
+
 
 
 
@@ -29,6 +32,11 @@ app.use("/auth/api", auth_route);
 app.use("/api/users", doctors_routes);
 app.use("/api/patients", patient_routes);
 app.use("/api/prescriptions", prescription_routes);
+app.use("/api/help-and-support", helpAndSupport_routes);
+
+// create billing overview
+app.use("/api", billingOverviewRoute);
+
 
 
 

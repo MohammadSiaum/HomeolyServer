@@ -1,53 +1,46 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const billingOverview = new mongoose.Schema({
+const billingOverviewSchema = new mongoose.Schema(
+  {
+    doctorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    patientId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    totalBill: {
+      type: Number,
+      required: true,
+    },
+    receivedBill: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
 
-  doctorId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true
-  },
-  patientId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true
-  },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true
-  },
+    DueBill: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
 
-  totalEarning: {
-    type: Number,
-    required: true,
+    draft: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
   },
-
-  totalDue: {
-    type: Number,
-    required: true
-  },
-
-  totalDrafPatient: {
-    type: Number,
-    required: true
-  },
-  
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  
-  updatedAt: {
-    type: Date,
-    default: Date.now
+  {
+    timestamps: true,
+    versionKey: false,
   }
-});
+);
 
+const BillingOverviewModel = mongoose.model(
+  "BillingOverview",
+  billingOverviewSchema
+);
 
-billingOverview.pre('save', function(next) {
-  this.updatedAt = Date.now();
-  next();
-});
-
-
-const BillingOverview = mongoose.model('BillingOverview', billingOverview);
-
-module.exports = PatientOverview;
+module.exports = BillingOverviewModel;

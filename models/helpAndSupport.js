@@ -7,6 +7,11 @@ const helpAndSupport = new mongoose.Schema({
     ref: 'Doctor',
     required: true
   },
+  
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
+  },
 
   fullName: {
     type: String,

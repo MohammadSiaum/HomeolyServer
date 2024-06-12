@@ -152,10 +152,9 @@ const checkBlacklist = (req, res, next) => {
 };
 
 // Sing out
-router.post('/user/signout', (req, res) => {
-  // const token = req.header('Authorization').replace('Bearer ', '');
-  // tokenBlacklist.add(token);
-  res.status(200).send('Logged out successfully');
+router.get("/logout", (req, res) => {
+  res.clearCookie("token"); // Clear the token from cookies
+  res.status(200).json({ status: "logged out" });
 });
 
 module.exports = router;

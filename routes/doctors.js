@@ -37,6 +37,7 @@ router.get('/', async(req, res) => {
 
 // Find a user by ID
 router.get('/doctor/:id', async (req, res) => {
+  // const { id } = req.params;
   const { id } = req.params;
   // console.log(id);
 

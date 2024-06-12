@@ -36,11 +36,11 @@ router.get('/prescription/:id', async (req, res) => {
       if (!prescription) {
         return res.status(404).send('Prescription not found');
       }
-  
+
       return res.status(200).json(prescription);
     } catch (error) {
-      console.error('Error finding patient:', error);
-      return res.status(500).send('Error finding patient');
+      console.error('Error finding prescription:', error);
+      return res.status(500).send('Error finding prescription');
     }
   });
 
@@ -76,24 +76,61 @@ router.post('/add-prescription', async(req, res) => {
         console.error('Error creating prescription:', error);
         res.status(500).send('Error creating prescription');
       }
-
 });
+
+// update prescription
+router.put('/update-prescription/:id', async(req, res) => {
+    // console.log(req.body);
+    const { id } = req.params;
+
+    const {
+        symptoms,
+        prescription,
+        comment,
+        billing,
+      } = req.body;
+  
+      try {
+        const updatedPrescription = await Prescription.findByIdAndUpdate(
+          {_id: id},
+  
+          {
+            symptoms,
+            prescription,
+            comment,
+            billing,
+        },
+        { new: true, runValidators: true}
+      );
+  
+      if(!updatedPrescription) {
+        return res.status(404).send('Prescription not found');
+      }
+      
+      return res.status(200).json(updatedPrescription);
+  
+      } catch (error) {
+        console.error('Error updating prescription:', error);
+        return res.status(500).send('Error updating prescription');
+      }
+  
+  });
 
 // Delete a prescription by ID
 router.delete('/delete-prescription/:id', async (req, res) => {
-    const { _id } = req.params;
+    const { id } = req.params;
   
     try {
-      const deletedPatient = await Patient.findByIdAndDelete(_id);
+      const deletedPrescription = await Prescription.findByIdAndDelete({_id: id});
   
-      if (!deletedPatient) {
-        return res.status(404).send('Patient not found');
+      if (!deletedPrescription) {
+        return res.status(404).send('Prescription not found');
       }
   
-      res.status(200).json({ message: 'Patient deleted successfully' });
+      res.status(200).json({ message: 'Prescription deleted successfully' });
     } catch (error) {
-      console.error('Error deleting patient:', error);
-      res.status(500).send('Error deleting patient');
+      console.error('Error deleting prescription:', error);
+      res.status(500).send('Error deleting prescription');
     }
   });
 

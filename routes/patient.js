@@ -17,7 +17,7 @@ router.get('/patient/:id', async (req, res) => {
   console.log(id);
 
   try {
-    const patient = await Patient.findById(id);
+    const patient = await Patient.findById({_id: id});
 
     if (!patient) {
       return res.status(404).send('Patient not found');
@@ -75,7 +75,8 @@ router.post('/add-patient', async(req, res) => {
 // update patient
 router.put('/update-patient/:id', async(req, res) => {
   // console.log(req.body);
-  const { _id } = req.params;
+  const { id } = req.params;
+  console.log(id);
   const {
       image,
       fullName,
@@ -90,7 +91,7 @@ router.put('/update-patient/:id', async(req, res) => {
 
     try {
       const updatedPatient = await Patient.findByIdAndUpdate(
-        _id,
+        {_id: id},
 
         {
           image,
@@ -109,7 +110,7 @@ router.put('/update-patient/:id', async(req, res) => {
     if(!updatedPatient) {
       return res.status(404).send('Patient not found');
     }
-  
+    
     return res.status(200).json(updatedPatient);
 
     } catch (error) {
@@ -121,10 +122,10 @@ router.put('/update-patient/:id', async(req, res) => {
 
 // Delete a patient by ID
 router.delete('/delete-patient/:id', async (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
 
   try {
-    const deletedPatient = await Patient.findByIdAndDelete(_id);
+    const deletedPatient = await Patient.findByIdAndDelete({_id: id});
 
     if (!deletedPatient) {
       return res.status(404).send('Patient not found');
